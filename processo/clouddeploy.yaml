@@ -1,0 +1,29 @@
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: DeliveryPipeline
+metadata:
+ name: processo
+description: processo application pipeline
+serialPipeline:
+ stages:
+ - targetId: homol
+   profiles: []
+ - targetId: prod
+   profiles: []
+---
+
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+ name: homol
+description: homol cluster
+gke:
+ cluster: projects/cearaprev-sgeap-prod/locations/southamerica-east1-c/clusters/cearaprev-sgeap-cluster-homol
+---
+
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+ name: prod
+description: prod cluster
+gke:
+ cluster: projects/cearaprev-sgeap-prod/locations/southamerica-east1/clusters/cearaprev-sgeap-cluster-prod

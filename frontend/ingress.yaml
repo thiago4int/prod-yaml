@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: front
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "sgeap-frontend-prod"
+    networking.gke.io/v1beta1.FrontendConfig: "front"
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: front
+      port:
+        number: 8080

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: documento
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "sgeap-documento-prod"
+    networking.gke.io/v1beta1.FrontendConfig: "documento"
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: documento
+      port:
+        number: 8080

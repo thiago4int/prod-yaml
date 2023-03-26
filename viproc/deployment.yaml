@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: viproc
+  # annotations:
+  #   cloud.google.com/backend-config: '{"default": "viproc"}'
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: viproc
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: viproc
+  labels:
+    app: viproc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: viproc
+  template:
+    metadata:
+      labels:
+        namespace: default
+        app: viproc
+    spec:
+      serviceAccountName: viproc-service-account
+      containers:
+        - image: gcr.io/cearaprev-sgeap-prod/viproc:latest
+          name: viproc

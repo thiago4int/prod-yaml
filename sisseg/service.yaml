@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sisseg
+  annotations:
+    cloud.google.com/backend-config: '{"default": "sisseg"}'
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: sisseg
+  type: NodePort

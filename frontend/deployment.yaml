@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  # annotations:
+  #   cloud.google.com/backend-config: '{"default": "front"}'
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: front
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+  labels:
+    app: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        namespace: default
+        app: front
+    spec:
+      serviceAccountName: frontend-service-account
+      containers:
+        - image:  gcr.io/cearaprev-sgeap-prod/front:latest
+          name: front

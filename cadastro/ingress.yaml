@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cadastro
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "sgeap-cadastro-prod"
+    networking.gke.io/v1beta1.FrontendConfig: "cadastro"
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress.class: "gce"
+spec:
+  defaultBackend:
+    service:
+      name: cadastro
+      port:
+        number: 8080
+
+
+
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: my-gmc-ingress
+#   annotations:
+#     networking.gke.io/managed-certificates: "managed-cert-cadastro,managed-cert-viproc"
+# spec:
+#   rules:
+#   - host: cadastro.dev.sgeap.cearatest.com
+#     http:
+#       paths:
+#       - pathType: ImplementationSpecific
+#         backend:
+#           service:
+#             name: my-mc-service
+#             port:
+#               name: my-first-port
+#   - host: viproc.dev.sgeap.cearatest.com
+#     http:
+#       paths:
+#       - pathType: ImplementationSpecific
+#         backend:
+#           service:
+#             name: my-mc-service
+#             port:
+#               name: my-second-port

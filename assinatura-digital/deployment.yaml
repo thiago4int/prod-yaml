@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: assinatura-digital
+  # annotations:
+  #   cloud.google.com/backend-config: '{"default": "assinatura-digital"}'
+  namespace: homol
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: assinatura-digital
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assinatura-digital
+  labels:
+    app: assinatura-digital
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assinatura-digital
+  template:
+    metadata:
+      labels:
+        namespace: homol
+        app: assinatura-digital
+    spec:
+      serviceAccountName: assinatura-digital-homol
+      containers:
+        - image: gcr.io/cearaprev-sgeap-prod/assinatura-digital:latest
+          name: assinatura-digital
+          ports:
+            - containerPort: 8080
+              name: assinatura
+              protocol: TCP
+          resources:
+          # You must specify requests for CPU to autoscale
+          # based on CPU utilization
+            requests:
+              cpu: "1"

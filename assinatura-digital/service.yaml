@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: assinatura-digital
+  annotations:
+    cloud.google.com/backend-config: '{"default": "assinatura-digital"}'
+  namespace: homol
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: assinatura-digital
+  type: NodePort

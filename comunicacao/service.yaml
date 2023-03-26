@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: comunicacao
+  annotations:
+    cloud.google.com/backend-config: '{"default": "comunicacao"}'
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: comunicacao
+  type: NodePort

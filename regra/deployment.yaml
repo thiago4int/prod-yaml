@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: regra
+  # annotations:
+  #   cloud.google.com/backend-config: '{"default": "regra"}'
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: regra
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: regra
+  labels:
+    app: regra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: regra
+  template:
+    metadata:
+      labels:
+        namespace: default
+        app: regra
+    spec:
+      serviceAccountName: regra-service-account
+      containers:
+        - image: gcr.io/cearaprev-sgeap-prod/regra:latest
+          name: regra
+          ports:
+            - containerPort: 8080
+              name: regra
+              protocol: TCP
+          resources:
+          # You must specify requests for CPU to autoscale
+          # based on CPU utilization
+            requests:
+              cpu: "1"
